@@ -11,7 +11,12 @@ ssh -i "/Users/preetyrai/.ssh/mlops.pem" ubuntu@3.90.34.5
 
 sudo crontab -e 
 
+which python 
 
+# for streamlit depyloyment
  @reboot /opt/conda/bin/python -m streamlit run /home/ubuntu/mlops/Sentiment_Analysis/app.py > /home/ubuntu/mlops/Sentiment_Analysis/streamlit.log 2>&1 
 
- 
+
+# for application deployment 
+@reboot /opt/conda/bin/python -m streamlit run /home/ubuntu/mlops/FastAPI_Nginx_HuggingFaceTransfromers/app.py > /home/ubuntu/mlops/FastAPI_Nginx_HuggingFaceTransfromers/app.log 2>&1
+
