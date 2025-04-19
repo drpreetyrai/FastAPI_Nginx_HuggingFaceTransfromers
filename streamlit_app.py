@@ -1,3 +1,5 @@
+# python -m streamlit run streamlit_app.py
+# python -m streamlit run streamlit_app.py --server.enableXsrfProtection false
 
 import streamlit as st
 import requests
