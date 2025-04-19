@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ML Model Tester</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 40px;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 700px;
+      margin: auto;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    select, textarea, input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .output {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ML Model Serving Over FastAPI</h1>
+
+    <label for="model">Select Model:</label>
+    <select id="model" onchange="showModelForm()">
+      <option value="sentiment_analysis">Sentiment Classifier</option>
+      <option value="disaster_classifier">Disaster Classifier</option>
+      <option value="pose_classifier">Pose Classifier</option>
+    </select>
+
+    <div id="form-area"></div>
+
+    <button onclick="predict()">Predict</button>
+
+    <div class="output" id="output-area"></div>
+  </div>
+
+  <script>
+    const API_URL = "http://127.0.0.1:8502/api/v1/";
+    const formArea = document.getElementById("form-area");
+    const outputArea = document.getElementById("output-area");
+
+    function showModelForm() {
+      const model = document.getElementById("model").value;
+      let formHtml = "";
+
+      if (model === "sentiment_analysis") {
+        formHtml = `
+          <textarea id="text" placeholder="Enter your movie review"></textarea>
+          <input type="text" id="user_id" placeholder="Enter user id" value="udemy@kgptalkie.com"/>
+        `;
+      } else if (model === "disaster_classifier") {
+        formHtml = `
+          <textarea id="text" placeholder="Enter your tweet"></textarea>
+          <input type="text" id="user_id" placeholder="Enter user id" value="preetyrai1212@gmail.com"/>
+        `;
+      } else if (model === "pose_classifier") {
+        formHtml = `
+          <input type="text" id="image_url" placeholder="Enter image URL (publicly accessible)"/>
+          <input type="text" id="user_id" placeholder="Enter user id" value="udemy@kgptalkie.com"/>
+        `;
+      }
+
+      formArea.innerHTML = formHtml;
+    }
+
+    // Call it initially to load the first form
+    showModelForm();
+
+    async function predict() {
+      const model = document.getElementById("model").value;
+      const user_id = document.getElementById("user_id")?.value;
+      const headers = { "Content-Type": "application/json" };
+      let data = {};
+
+      if (model === "pose_classifier") {
+        const url = document.getElementById("image_url").value;
+        data = { url: [url], user_id };
+      } else {
+        const text = document.getElementById("text").value;
+        data = { text: [text], user_id };
+      }
+
+      outputArea.innerText = "Predicting... Please wait...";
+
+      try {
+        const res = await fetch(API_URL + model, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(data)
+        });
+
+        if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+
+        const result = await res.json();
+        outputArea.innerText = JSON.stringify(result, null, 2);
+      } catch (err) {
+        outputArea.innerText = "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
