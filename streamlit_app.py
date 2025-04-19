@@ -7,6 +7,9 @@ from scripts import s3
 
 # Define the API endpoint
 API_URL = "http://127.0.0.1:8502/api/v1/"
+# API_URL = "http://3.90.34.5:8502/api/v1/"
+
+
 headers = {
   'Content-Type': 'application/json'
 }
