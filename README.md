@@ -1,7 +1,7 @@
 
 ML Backend (Hugging Face Transformers) + React Frontend
 
-![alt text](app.png)
+![alt text](application.png)
 
 create a virual environment
  
@@ -50,3 +50,11 @@ docker pull preetyrai1212/mlops-nginx:latest
 
 # command to run pulled image from docker hub 
 docker run -p 80:5000 preetyrai1212/mlops-nginx
+
+
+# docoker compose.yaml file 
+docker-compose up --scale app=5
+
+docker-compose up --build --scale app=5 
+
+

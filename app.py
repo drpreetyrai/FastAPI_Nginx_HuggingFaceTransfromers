@@ -3,7 +3,8 @@
 
 
 from scripts.data_model import NLPDataInput, NLPDataOutput, ImageDataInput, ImageDataOutput
-from scripts import s3
+from scripts import s3 
+import socket
 
 from fastapi import FastAPI 
 from fastapi import Request 
@@ -70,7 +71,8 @@ pose_model = pipeline('image-classification', model=local_path, device=device, i
 
 @app.get("/")
 def read_root():
-    return "Hello! I am up!!!"
+    return f"Hello World: {socket.gethostname()}"
+
 
 @app.post("/api/v1/sentiment_analysis")
 def sentiment_analysis(data: NLPDataInput):
