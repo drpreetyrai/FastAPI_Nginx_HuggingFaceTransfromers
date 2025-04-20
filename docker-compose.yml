@@ -20,13 +20,13 @@
 #       - "80:80" 
 
 
-
+version: '3.3'
 services:
   app:
     image: preetyrai1212/app
 
-    volumes:
-      - ./.aws:/root/.aws:ro
+    # volumes:           # not required in ec2 ssh
+    #   - ./.aws:/root/.aws:ro
 
   
   nginx:
