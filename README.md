@@ -7,11 +7,15 @@ create a virual environment
  
 conda activate /Users/preetyrai/fastapi_docker_nginx/venv
 
-
+```bash
 ssh -i "/Users/preetyrai/.ssh/mlops.pem" ubuntu@3.90.34.5
 
+```
 
+```bash
 sudo crontab -e 
+
+```
 
 which python 
 
@@ -20,8 +24,11 @@ which python
 
 
 # for application deployment 
+
+```bash
 @reboot /opt/conda/bin/python -m streamlit run /home/ubuntu/mlops/FastAPI_Nginx_HuggingFaceTransfromers/app.py > /home/ubuntu/mlops/FastAPI_Nginx_HuggingFaceTransfromers/app.log 2>&1
 
+```
 
 
 # for docker
@@ -46,15 +53,67 @@ docker tag mlops-nginx preetyrai1212/mlops-nginx:latest
 docker push preetyrai1212/mlops-nginx:latest
 
 # to pull docker image from docker hub
-docker pull preetyrai1212/mlops-nginx:latest
+
 
 # command to run pulled image from docker hub 
 docker run -p 80:5000 preetyrai1212/mlops-nginx
 
 
 # docoker compose.yaml file 
-docker-compose up --scale app=5
+
 
 docker-compose up --build --scale app=5 
+
+docker-compose up --scale app=5
+
+
+
+# docker two splitting images and push them separately to docker hub 
+docker ps
+
+docker tag fastapi_docker_nginx-nginx preetyrai1212/nginx:latest
+
+
+docker tag fastapi_docker_nginx-app preetyrai1212/app:latest
+
+docker push preetyrai1212/nginx
+
+docker push preetyrai1212/app 
+
+# Now we can do in 1 docker-compose.yaml file also : 
+``` bash
+services:
+  app:
+    image: preetyrai1212/app
+
+    volumes:
+      - ./.aws:/root/.aws:ro
+
+  
+  nginx:
+    image: preetyrai1212/nginx
+
+    depends_on:
+      - app
+
+    ports:
+      - "80:80"
+
+```
+after that use: 
+```bash
+docker-compose up --build --scale app=5
+
+``` 
+or 
+
+```bash
+docker-compose up --build 
+
+```
+
+
+
+
 
 

@@ -1,20 +1,49 @@
+# services:
+#   app:
+#     build:
+#       context: .
+#     ports:
+#       - ":5000"
+    
+#     volumes:
+#       - ./.aws:/root/.aws:ro
+
+#   nginx:
+#     build: 
+#       context: .
+#       dockerfile: Dockerfile.nginx
+    
+#     depends_on:
+#       - app
+
+#     ports:
+#       - "80:80" 
+
+
+
 services:
   app:
-    build:
-      context: .
-    ports:
-      - ":5000"
-    
+    image: preetyrai1212/app
+
     volumes:
       - ./.aws:/root/.aws:ro
 
+  
   nginx:
-    build: 
-      context: .
-      dockerfile: Dockerfile.nginx
-    
+    image: preetyrai1212/nginx
+
     depends_on:
       - app
 
     ports:
       - "80:80"
+
+
+
+
+
+
+
+
+
+
