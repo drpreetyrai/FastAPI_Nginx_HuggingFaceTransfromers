@@ -20,3 +20,10 @@ which python
 # for application deployment 
 @reboot /opt/conda/bin/python -m streamlit run /home/ubuntu/mlops/FastAPI_Nginx_HuggingFaceTransfromers/app.py > /home/ubuntu/mlops/FastAPI_Nginx_HuggingFaceTransfromers/app.log 2>&1
 
+
+
+# for docker
+
+docker build -t fastapi .
+
+docker run fastapi 
