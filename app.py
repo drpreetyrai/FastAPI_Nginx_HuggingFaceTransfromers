@@ -17,7 +17,7 @@ import torch
 from transformers import pipeline
 from transformers import AutoImageProcessor #-> like Tokenizer
 
-from fastapi.middleware.cors import CORSMiddleware
+# from fastapi.middleware.cors import CORSMiddleware
 
 
 
@@ -26,13 +26,13 @@ from scripts.data_model import NLPDataInput
 app = FastAPI() 
 
 # Add this after `app = FastAPI()`
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # For development only; in production specify domains
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],  # For development only; in production specify domains
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 model_ckpt = "google/vit-base-patch16-224-in21k"
 image_processor = AutoImageProcessor.from_pretrained(model_ckpt, use_fast=True)
